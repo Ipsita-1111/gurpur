@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Celebration Gurrfurr Purrniece!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ffcce6, #ff99cc, #ff66b3);
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .message {
+            position: absolute;
+            top: 20px;
+            font-size: 2.5em;
+            color: #fff;
+            text-shadow: 3px 3px 0 #ff66b3, 5px 5px 0 #cc0099;
+            opacity: 0;
+            animation: fadeIn 2s forwards 1s;
+            z-index: 100;
+        }
+        
+        .cake-container {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin-top: 50px;
+        }
+        
+        /* Cake layers */
+        .cake-layer {
+            position: absolute;
+            border-radius: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+        
+        .bottom-layer {
+            width: 250px;
+            height: 90px;
+            background: #f9c5d1;
+            bottom: 0;
+            animation: appear 0.5s forwards 1.5s, wiggle 0.3s infinite alternate 2s;
+        }
+        
+        .middle-layer {
+            width: 200px;
+            height: 70px;
+            background: #f2789f;
+            bottom: 90px;
+            animation: appear 0.5s forwards 2s, wiggle 0.3s infinite alternate 2.3s;
+        }
+        
+        .top-layer {
+            width: 160px;
+            height: 60px;
+            background: #f999b7;
+            bottom: 160px;
+            animation: appear 0.5s forwards 2.5s, wiggle 0.3s infinite alternate 2.6s;
+        }
+        
+        /* Frosting */
+        .frosting {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .frosting-1 {
+            width: 30px;
+            height: 20px;
+            bottom: 220px;
+            left: 120px;
+            animation: appear 0.5s forwards 3s;
+        }
+        
+        .frosting-2 {
+            width: 25px;
+            height: 15px;
+            bottom: 215px;
+            left: 160px;
+            animation: appear 0.5s forwards 3.1s;
+        }
+        
+        .frosting-3 {
+            width: 20px;
+            height: 12px;
+            bottom: 210px;
+            left: 140px;
+            animation: appear 0.5s forwards 3.2s;
+        }
+        
+        /* Pineapple decorations */
+        .pineapple {
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            background: #ffcc00;
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 2;
+        }
+        
+        .pineapple:before {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 10px;
+            background: #4d9900;
+            top: -10px;
+            left: 10px;
+            border-radius: 2px;
+        }
+        
+        .pineapple-1 {
+            bottom: 80px;
+            left: 130px;
+            animation: appear 0.5s forwards 3.3s;
+        }
+        
+        .pineapple-2 {
+            bottom: 120px;
+            left: 180px;
+            animation: appear 0.5s forwards 3.4s;
+        }
+        
+        .pineapple-3 {
+            bottom: 60px;
+            left: 200px;
+            animation: appear 0.5s forwards 3.5s;
+        }
+        
+        /* Chicken decorations */
+        .chicken {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: #ffcc99;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0;
+            z-index: 2;
+        }
+        
+        .chicken:before {
+            content: "";
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: #ff9966;
+            border-radius: 50%;
+            top: 5px;
+            left: 5px;
+        }
+        
+        .chicken-1 {
+            bottom: 100px;
+            left: 150px;
+            animation: appear 0.5s forwards 3.6s;
+        }
+        
+        .chicken-2 {
+            bottom: 140px;
+            left: 120px;
+            animation: appear 0.5s forwards 3.7s;
+        }
+        
+        /* Candles */
+        .candle {
+            position: absolute;
+            width: 10px;
+            height: 30px;
+            background: linear-gradient(to bottom, #ff9999, #ff6666);
+            bottom: 220px;
+            opacity: 0;
+            animation: appear 0.5s forwards 3.8s;
+        }
+        
+        .candle-1 { left: 110px; }
+        .candle-2 { left: 130px; }
+        .candle-3 { left: 150px; }
+        .candle-4 { left: 170px; }
+        .candle-5 { left: 190px; }
+        
+        .candle-flame {
+            position: absolute;
+            width: 8px;
+            height: 15px;
+            background: linear-gradient(to top, #ffcc00, #ff6600);
+            border-radius: 50% 50% 20% 20%;
+            bottom: 250px;
+            opacity: 0;
+            animation: appear 0.5s forwards 4s, flicker 0.3s infinite alternate 4.5s;
+        }
+        
+        .flame-1 { left: 111px; }
+        .flame-2 { left: 131px; }
+        .flame-3 { left: 151px; }
+        .flame-4 { left: 171px; }
+        .flame-5 { left: 191px; }
+        
+        /* Party elements */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+        }
+        
+        .popper {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: #ff6699;
+            bottom: 0;
+            opacity: 0;
+        }
+        
+        .popper-left {
+            left: 30px;
+            transform: rotate(-30deg);
+            animation: appear 0.5s forwards 5s, pop 1s forwards 6s;
+        }
+        
+        .popper-right {
+            right: 30px;
+            transform: rotate(30deg);
+            animation: appear 0.5s forwards 5s, pop 1s forwards 6.2s;
+        }
+        
+        .balloon {
+            position: absolute;
+            width: 40px;
+            height: 50px;
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 5s infinite;
+        }
+        
+        .balloon-string {
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: #333;
+            top: 50px;
+            left: 20px;
+        }
+        
+        /* Background decorations */
+        .banner {
+            position: absolute;
+            width: 150px;
+            height: 30px;
+            background: #ff0066;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            opacity: 0;
+            transform: rotate(-15deg);
+            animation: appear 1s forwards 4s;
+        }
+        
+        .banner-1 {
+            top: 50px;
+            left: 20px;
+        }
+        
+        .banner-2 {
+            top: 50px;
+            right: 20px;
+            transform: rotate(15deg);
+        }
+        
+        .streamer {
+            position: absolute;
+            height: 100vh;
+            width: 20px;
+            background: linear-gradient(to bottom, transparent, #ff3399, transparent);
+            opacity: 0.5;
+            animation: streamerWave 3s infinite ease-in-out;
+        }
+        
+        .streamer-1 {
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .streamer-2 {
+            left: 30%;
+            animation-delay: 0.5s;
+        }
+        
+        .streamer-3 {
+            left: 70%;
+            animation-delay: 1s;
+        }
+        
+        .streamer-4 {
+            left: 90%;
+            animation-delay: 1.5s;
+        }
+        
+        /* Animations */
+        @keyframes appear {
+            to { opacity: 1; }
+        }
+        
+        @keyframes wiggle {
+            from { transform: translateX(-50%) rotate(-2deg); }
+            to { transform: translateX(-50%) rotate(2deg); }
+        }
+        
+        @keyframes flicker {
+            from { transform: scale(1); opacity: 0.8; }
+            to { transform: scale(1.1, 1.3); opacity: 1; }
+        }
+        
+        @keyframes pop {
+            0% { transform: rotate(-30deg) translateY(0); }
+            50% { transform: rotate(-30deg) translateY(-20px); }
+            100% { transform: rotate(-30deg) translateY(-100px); opacity: 0; }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        @keyframes blow {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+        
+        @keyframes streamerWave {
+            0%, 100% { transform: translateY(0) rotate(2deg); }
+            50% { transform: translateY(-20px) rotate(-2deg); }
+        }
+        
+        .blow-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #ff3399;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.2em;
+            cursor: pointer;
+            opacity: 0;
+            animation: appear 1s forwards 5s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+        
+        .blow-btn:hover {
+            background: #ff0066;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="message">Happy Celebration Gurrfurr Purrniece!</div>
+    
+    <!-- Background streamers -->
+    <div class="streamer streamer-1"></div>
+    <div class="streamer streamer-2"></div>
+    <div class="streamer streamer-3"></div>
+    <div class="streamer streamer-4"></div>
+    
+    <!-- Banners -->
+    <div class="banner banner-1">MEOW!</div>
+    <div class="banner banner-2">PURR!</div>
+    
+    <div class="cake-container">
+        <!-- Cake layers -->
+        <div class="cake-layer bottom-layer"></div>
+        <div class="cake-layer middle-layer"></div>
+        <div class="cake-layer top-layer"></div>
+        
+        <!-- Frosting -->
+        <div class="frosting frosting-1"></div>
+        <div class="frosting frosting-2"></div>
+        <div class="frosting frosting-3"></div>
+        
+        <!-- Pineapples -->
+        <div class="pineapple pineapple-1"></div>
+        <div class="pineapple pineapple-2"></div>
+        <div class="pineapple pineapple-3"></div>
+        
+        <!-- Chicken pieces -->
+        <div class="chicken chicken-1"></div>
+        <div class="chicken chicken-2"></div>
+        
+        <!-- Candles -->
+        <div class="candle candle-1"></div>
+        <div class="candle candle-2"></div>
+        <div class="candle candle-3"></div>
+        <div class="candle candle-4"></div>
+        <div class="candle candle-5"></div>
+        
+        <!-- Candle flames -->
+        <div class="candle-flame flame-1"></div>
+        <div class="candle-flame flame-2"></div>
+        <div class="candle-flame flame-3"></div>
+        <div class="candle-flame flame-4"></div>
+        <div class="candle-flame flame-5"></div>
+        
+        <!-- Party poppers -->
+        <div class="popper popper-left"></div>
+        <div class="popper popper-right"></div>
+    </div>
+    
+    <button class="blow-btn" onclick="blowCandles()">Blow the Candles!</button>
+    
+    <script>
+        // Create confetti
+        function createConfetti() {
+            const colors = ['#ff6699', '#66ccff', '#ffff66', '#99ff66', '#ff9966'];
+            for (let i = 0; i < 150; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.top = -10 + 'px';
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                
+                // Random shape
+                if (Math.random() > 0.5) {
+                    confetti.style.borderRadius = '50%';
+                }
+                
+                document.body.appendChild(confetti);
+                
+                // Animate confetti
+                const animationDuration = Math.random() * 3 + 2;
+                confetti.style.animation = `appear 0.5s forwards, confettiFall ${animationDuration}s forwards`;
+                
+                // Create keyframes dynamically
+                const style = document.createElement('style');
+                style.innerHTML = `
+                    @keyframes confettiFall {
+                        to {
+                            top: ${window.innerHeight + 10}px;
+                            transform: rotate(${Math.random() * 360}deg) translateX(${Math.random() * 200 - 100}px);
+                        }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                // Remove confetti after animation
+                setTimeout(() => {
+                    confetti.remove();
+                    style.remove();
+                }, animationDuration * 1000);
+            }
+        }
+        
+        // Create balloons
+        function createBalloons() {
+            const colors = ['#ff6699', '#66ccff', '#ffff66', '#99ff66', '#ff9966'];
+            for (let i = 0; i < 15; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon';
+                balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                balloon.style.left = Math.random() * window.innerWidth + 'px';
+                balloon.style.top = window.innerHeight + 'px';
+                balloon.style.opacity = '0';
+                
+                const string = document.createElement('div');
+                string.className = 'balloon-string';
+                balloon.appendChild(string);
+                
+                document.body.appendChild(balloon);
+                
+                // Animate balloon
+                const delay = Math.random() * 2;
+                const duration = Math.random() * 5 + 5;
+                balloon.style.animationDelay = `${delay}s, ${delay}s`;
+                balloon.style.animationDuration = `1s, ${duration}s`;
+                
+                setTimeout(() => {
+                    balloon.style.opacity = '1';
+                    balloon.style.top = '-100px';
+                    balloon.style.transition = `top ${duration}s linear`;
+                }, delay * 1000);
+                
+                // Remove balloon after animation
+                setTimeout(() => {
+                    balloon.remove();
+                }, (delay + duration) * 1000);
+            }
+        }
+        
+        // Create floating decorations
+        function createFloatingDecorations() {
+            const decorations = ['🎀', '🎉', '🎊', '🎈', '🎁', '🐾', '🐱'];
+            for (let i = 0; i < 10; i++) {
+                const decor = document.createElement('div');
+                decor.textContent = decorations[Math.floor(Math.random() * decorations.length)];
+                decor.style.position = 'absolute';
+                decor.style.fontSize = `${Math.random() * 20 + 20}px`;
+                decor.style.left = Math.random() * window.innerWidth + 'px';
+                decor.style.top = window.innerHeight + 'px';
+                decor.style.opacity = '0';
+                decor.style.zIndex = '1';
+                
+                document.body.appendChild(decor);
+                
+                const delay = Math.random() * 3;
+                const duration = Math.random() * 10 + 5;
+                
+                setTimeout(() => {
+                    decor.style.opacity = '0.8';
+                    decor.style.top = '-50px';
+                    decor.style.transition = `top ${duration}s linear, opacity 1s ease-in`;
+                }, delay * 1000);
+                
+                setTimeout(() => {
+                    decor.remove();
+                }, (delay + duration) * 1000);
+            }
+        }
+        
+        // Blow candles function
+        function blowCandles() {
+            const flames = document.querySelectorAll('.candle-flame');
+            flames.forEach(flame => {
+                flame.style.animation = 'blow 0.5s forwards';
+            });
+            
+            // Create celebration elements
+            createConfetti();
+            createBalloons();
+            createFloatingDecorations();
+            
+            // Disable button
+            document.querySelector('.blow-btn').disabled = true;
+            
+            // Change message
+            setTimeout(() => {
+                document.querySelector('.message').textContent = "Yay! Let's Party Gurrfurr Purrniece!";
+            }, 1000);
+        }
+        
+        // Initialize some decorations
+        setTimeout(createBalloons, 6000);
+        setTimeout(createFloatingDecorations, 7000);
+        setInterval(createFloatingDecorations, 8000);
+    </script>
+</body>
+</html>
